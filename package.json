@@ -1,0 +1,35 @@
+{
+  "name": "node-framework",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "babel src --out-dir dist",
+    "serve": "babel-watch src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AHMEDHASSAN202/node-framework.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AHMEDHASSAN202/node-framework/issues"
+  },
+  "homepage": "https://github.com/AHMEDHASSAN202/node-framework#readme",
+  "dependencies": {
+    "@babel/polyfill": "^7.10.1",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-fileupload": "^1.1.7-alpha.3"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.10.1",
+    "@babel/core": "^7.10.2",
+    "@babel/preset-env": "^7.10.2",
+    "babel-watch": "^7.0.0"
+  }
+}
