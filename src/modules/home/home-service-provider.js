@@ -1,7 +1,13 @@
-class HomeServiceProvider {
+import HomeSiteRoutes from "./routes/site";
+import BaseServiceProvider from "../../core/BaseServiceProvider";
 
-    constructor() {
-        console.log("welcome");
+
+class HomeServiceProvider extends BaseServiceProvider {
+    constructor () {
+        super();
+        this.routes = [
+            HomeSiteRoutes
+        ];
     }
 }
 
