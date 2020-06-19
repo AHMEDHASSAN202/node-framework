@@ -5,6 +5,7 @@ import cors from 'cors';
 import fileUpload from 'express-fileupload';
 import ServiceProvider from './ServiceProvider';
 import router from './../core/Router';
+import DB from './DB';
 
 class Application {
 
@@ -12,7 +13,7 @@ class Application {
     constructor() {
         //prepare my server by express
         this.prepareServer();
-        //initial appication 
+        //initial application
         this.init();
         //set express app in my framework
         router.setExpressApp(this.express);
@@ -43,6 +44,8 @@ class Application {
     }
 
     run() {
+        //connect db
+        (new DB).connect();
         //register all routes from service providers
         this.serviceProvider.registerRoutes(router);
         //listen express app

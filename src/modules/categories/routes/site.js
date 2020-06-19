@@ -5,12 +5,12 @@ import UpdateCategory from "../actions/UpdateCategory";
 import DeleteCategory from "../actions/DeleteCategory";
 
 export default function CategoriesSiteRoutes(router) {
-    let actiosns = {
+    let actions = {
         List: ListOfCategories,
         Show: ShowCategory,
         Store: StoreCategory,
         Update: UpdateCategory,
         Delete: DeleteCategory
     };
-    router.resource('categories', actiosns);
+    router.resource('categories', actions);
 }
