@@ -17,6 +17,8 @@ class Application {
         this.init();
         //set express app in my framework
         router.setExpressApp(this.express);
+        //run global middlewares
+        router.runGlobalMiddlewares(this.express);
     }
 
     init() {

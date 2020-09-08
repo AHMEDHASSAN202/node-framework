@@ -1,20 +1,32 @@
+import middleware from "../config/middleware";
+
 class Router {
+
+    constructor() {
+        this.middlewares = [];
+        this.routeMiddlewares = middleware.routes;
+        this.globalMiddleware = middleware.globals;
+    }
 
     setExpressApp(express) {
         //express app object
         this.express = express;
     }
 
-    _requestMethod(action, route, callback) {
+    runGlobalMiddlewares() {
+        let middlewares = this.globalMiddleware || [];
+        middlewares.map(middlewareFunction => {
+            this.express.use(middlewareFunction);
+        })
+    }
+
+    _requestMethod(action, route, callback, middlewares = []) {
         //sanitaize route url
         let url = this._url(route);
         //call express action method depending action
-        this.express[action](url, function (request, response) {
-            callback(request, response);
-        })
-        
-        //chaining method
-        return this;
+        this.express[action](url, [...this.middlewares, ...middlewares, callback]);
+        //set empty value
+        this.middlewares = [];
     }
 
     _url(route) {
@@ -83,14 +95,27 @@ class Router {
         return this._requestMethod('options', route, callback);
     }
 
-    resource(route, actions) {
-        return this._requestMethod('get', route, actions.List)
-                   ._requestMethod('get', route + '/:id', actions.Show)
-                   ._requestMethod('post', route , actions.Store)
-                   ._requestMethod('put', route + '/:id', actions.Update)
-                   ._requestMethod('delete', route + '/:id', actions.Delete);   
+    resource(route, actions, routeMiddlewareNames = []) {
+        let middlewares = this.getMiddlewares(routeMiddlewareNames);
+        this._requestMethod('get', route, actions.List, middlewares);
+        this._requestMethod('get', route + '/:id', actions.Show, middlewares);
+        this._requestMethod('post', route , actions.Store, middlewares);
+        this._requestMethod('put', route + '/:id', actions.Update, middlewares);
+        this._requestMethod('delete', route + '/:id', actions.Delete, middlewares);   
     }
 
+    middleware(routeMiddlewareNames = []) {
+        if (routeMiddlewareNames) {
+            this.middlewares = this.getMiddlewares(routeMiddlewareNames);
+        }
+        return this;
+    }
+
+    getMiddlewares(routeMiddlewareNames = []) {
+        return routeMiddlewareNames.map(middlewareName => {
+            return this.routeMiddlewares[middlewareName]
+        });
+    }
 }
 
 

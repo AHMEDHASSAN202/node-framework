@@ -1,3 +1,3 @@
 export default function sayHello(request, response) {
-    return 'Hello World!';
+    return response.send('Home');
 }

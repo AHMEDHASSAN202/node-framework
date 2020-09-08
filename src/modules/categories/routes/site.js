@@ -12,5 +12,5 @@ export default function CategoriesSiteRoutes(router) {
         Update: UpdateCategory,
         Delete: DeleteCategory
     };
-    router.resource('categories', actions);
+    router.resource('categories', actions, ['categoriesMiddleware']);
 }
