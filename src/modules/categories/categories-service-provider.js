@@ -1,13 +1,10 @@
-import BaseServiceProvider from "../../core/BaseServiceProvider";
+import ServiceProvider from "../../core/providers/ServiceProvider";
 import CategoriesSiteRoutes from "./routes/site";
 
-class CategoriesServiceProviders extends BaseServiceProvider {
-    constructor() {
-        super();
-        this.routes = [
-            CategoriesSiteRoutes
-        ];
-    }
+class CategoriesServiceProviders extends ServiceProvider {
+    routes = [
+        CategoriesSiteRoutes
+    ];
 }
 
 export default CategoriesServiceProviders; 

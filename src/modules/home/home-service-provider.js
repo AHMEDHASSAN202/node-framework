@@ -1,13 +1,15 @@
 import HomeSiteRoutes from "./routes/site";
-import BaseServiceProvider from "../../core/BaseServiceProvider";
+import ServiceProvider from "../../core/providers/ServiceProvider";
+import Hooks from "../../core/Hooks";
+import hello from './hooks/hello';
 
-
-class HomeServiceProvider extends BaseServiceProvider {
-    constructor () {
-        super();
-        this.routes = [
-            HomeSiteRoutes
-        ];
+class HomeServiceProvider extends ServiceProvider {
+    routes = [
+        HomeSiteRoutes
+    ];
+    
+    register() {
+        Hooks.add_action('hello', hello);
     }
 }
 

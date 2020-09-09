@@ -3,30 +3,32 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import fileUpload from 'express-fileupload';
-import ServiceProvider from './ServiceProvider';
+import ServiceProviderContainer from '../config/service-provider-container';
 import router from './../core/Router';
 import DB from './DB';
 
 class Application {
-
+    
+    //initial value for serviceProviders Container Objects
+    serviceProviders = [];
+    
+    //set router object
+    router = router;
 
     constructor() {
         //prepare my server by express
         this.prepareServer();
+        //set express app in my framework
+        this.router.setExpressApp(this.express);
+        //run global middlewares
+        this.router.runGlobalMiddlewares(this.express);
         //initial application
         this.init();
-        //set express app in my framework
-        router.setExpressApp(this.express);
-        //run global middlewares
-        router.runGlobalMiddlewares(this.express);
     }
 
     init() {
-        //create object of main service provider
-        this.serviceProvider = new ServiceProvider;
-        //create objects of all service providers 
-        //on config/service-provider-container file
-        this.serviceProvider.boot();
+        //load all service providers
+        this.loadServiceProviders();
     }
 
     prepareServer() {
@@ -48,14 +50,26 @@ class Application {
     run() {
         //connect db
         (new DB).connect();
-        //register all routes from service providers
-        this.serviceProvider.registerRoutes(router);
         //listen express app
         this.express.listen(process.env.PORT, function () {
             console.log(`Server is runing on port ${process.env.PORT}`);
         });
     }
 
+     /**
+      * Load Service Providers
+      * create object from service provider and 
+      * register it in serviceProviders array
+      * 
+      * @return void
+      */
+    loadServiceProviders() {
+        for(let i = 0; i < ServiceProviderContainer.length; i++) {
+            let SP = new ServiceProviderContainer[i](this);
+            SP.boot();
+            this.serviceProviders.push(SP);
+        }
+    }
 
 }
 

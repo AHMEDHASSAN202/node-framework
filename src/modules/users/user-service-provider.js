@@ -1,13 +1,10 @@
-import BaseServiceProvider from '../../core/BaseServiceProvider'
+import ServiceProvider from '../../core/providers/ServiceProvider'
 import UserSiteRoutes from './routes/site';
 
-class UserServiceProvider extends BaseServiceProvider {
-    constructor() {
-        super();
-        this.routes = [
-            UserSiteRoutes
-        ];
-    }
+class UserServiceProvider extends ServiceProvider {
+    routes = [
+        UserSiteRoutes
+    ];
 } 
 
 export default UserServiceProvider;
