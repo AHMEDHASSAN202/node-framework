@@ -113,6 +113,9 @@ class Router {
 
     getMiddlewares(routeMiddlewareNames = []) {
         return routeMiddlewareNames.map(middlewareName => {
+            if (typeof middlewareName == 'function') {
+                return middlewareName;
+            }
             return this.routeMiddlewares[middlewareName]
         });
     }
